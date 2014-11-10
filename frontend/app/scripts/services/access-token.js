@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('frontendApp')
-  .service('AccessToken', function AccessToken($localStorage, $timeout) {
+  .service('AccessToken', function AccessToken($localStorage) {
     this.get = function() {
       return $localStorage.token;
     };
