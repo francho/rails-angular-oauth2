@@ -16,4 +16,25 @@ angular.module('frontendApp', [
       .otherwise({
         redirectTo: '/'
       });
-  });
+  })
+
+  .config(['$httpProvider', function($httpProvider) {
+    $httpProvider.interceptors.push('tokenInterceptor');
+  }]);
+
+
+angular.module('frontendApp')
+.factory('tokenInterceptor', function(AccessToken) {
+  return {
+    request: function(config) {
+      var token;
+      if (config.url.indexOf('//localhost:3000') === 0) {
+        token = AccessToken.get();
+      if (token) {
+        config.headers['Authorization'] = 'Bearer ' + token;
+      }
+      }
+      return config;
+    }
+  };
+});
