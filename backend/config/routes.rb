@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   get 'public/index'
 
   devise_for :users
+
+  get '/secret_area/', to: 'public#protected_index', as: 'secret_area'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
