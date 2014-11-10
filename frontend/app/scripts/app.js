@@ -7,20 +7,32 @@ angular.module('frontendApp', [
   'ngRoute',
   'ngStorage'
 ])
-  .config(function ($routeProvider) {
-    $routeProvider
-      .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
-      })
-      .otherwise({
-        redirectTo: '/'
-      });
+.config(function ($routeProvider) {
+  $routeProvider
+  .when('/', {
+    templateUrl: 'views/main.html',
+    controller: 'MainCtrl'
+  })
+  .when('/access_token=:response', {
+    controller: function($routeParams, AccessToken){
+      var token = $routeParams.response.match(/^(.*?)&/)[1];
+      AccessToken.set(token);
+    },
+    redirectTo: '/'
   })
 
-  .config(['$httpProvider', function($httpProvider) {
-    $httpProvider.interceptors.push('tokenInterceptor');
-  }]);
+  .when('/', {
+    templateUrl: 'views/main.html',
+    controller: 'MainCtrl'
+  })
+  .otherwise({
+    redirectTo: '/'
+  });
+})
+
+.config(['$httpProvider', function($httpProvider) {
+  $httpProvider.interceptors.push('tokenInterceptor');
+}]);
 
 
 angular.module('frontendApp')
@@ -30,9 +42,9 @@ angular.module('frontendApp')
       var token;
       if (config.url.indexOf('//localhost:3000') === 0) {
         token = AccessToken.get();
-      if (token) {
-        config.headers['Authorization'] = 'Bearer ' + token;
-      }
+        if (token) {
+          config.headers.authorization = 'Bearer ' + token;
+        }
       }
       return config;
     }
