@@ -9,22 +9,17 @@ angular.module('frontendApp', [
 ])
 .config(function ($routeProvider) {
   $routeProvider
-  .when('/', {
+  .when('/:response', {
     templateUrl: 'views/main.html',
     controller: 'MainCtrl'
   })
-  .when('/access_token=:response', {
-    controller: function($routeParams, AccessToken){
-      var token = $routeParams.response.match(/^(.*?)&/)[1];
-      AccessToken.set(token);
-    },
-    redirectTo: '/'
+  
+  .when('/', {
+    templateUrl: 'views/main.html',
+    controller: 'MainCtrl'
   })
 
-  .when('/', {
-    templateUrl: 'views/main.html',
-    controller: 'MainCtrl'
-  })
+
   .otherwise({
     redirectTo: '/'
   });
