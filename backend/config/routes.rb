@@ -2,9 +2,7 @@ Rails.application.routes.draw do
   use_doorkeeper
   get 'public/index'
 
-  devise_for :users, controllers: {
-    omniauth_callbacks: 'users/omniauth_callbacks'
-  }
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
   delete '/logout', to: 'users#logout'
 
