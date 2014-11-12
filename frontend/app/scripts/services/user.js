@@ -11,7 +11,7 @@ app.service('User', function($http) {
       return $http.get(base + '/me');
     },
     logout: function() {
-      return $http["delete"](base + '/logout');
+      return $http.delete(base + '/logout', {withCredentials: true});
     }
   };
 });
